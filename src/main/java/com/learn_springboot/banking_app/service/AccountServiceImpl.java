@@ -22,7 +22,21 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public AccountDto findAccount(Long accountId) {
-        Account account = accountRepository.findById(accountId).get();
+        Account account = accountRepository
+                        .findById(accountId)
+                        .orElseThrow(() -> new RuntimeException("Account not Found!"));
         return AccountMapper.mapToAccountDto(account);
+    }
+
+    @Override
+    public AccountDto depositAmount(Long accountId, Double amount) {
+        Account account = accountRepository
+                .findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not Found!"));
+
+        Double new_balance = account.getBalance()+amount;
+        account.setBalance(new_balance);
+        Account res = accountRepository.save(account);
+        return AccountMapper.mapToAccountDto(res);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -25,7 +26,7 @@ public class AccountController {
     public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto){
         logger.info(accountDto+"");
         AccountDto res = accountService.createAccount(accountDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}").buildAndExpand(res.getAccountId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(res.getAccountId()).toUri();
         return ResponseEntity.created(location).body(res);
     }
 
@@ -33,5 +34,16 @@ public class AccountController {
     public ResponseEntity<AccountDto> getAccount(@PathVariable(name = "id") Long accountId){
         AccountDto accountDto = accountService.findAccount(accountId);
         return new ResponseEntity<>(accountDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/deposit")
+    public ResponseEntity<Void> updateBalance_deposit(@PathVariable(name = "id") Long accountId, @RequestBody Map<String, Double> request){
+        Double amount = request.get("amount");
+        accountService.depositAmount(accountId, amount);
+        return ResponseEntity.status(204).headers(httpHeaders -> {
+            URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(accountId).toUri();
+            httpHeaders.setLocation(location);
+        }).build();
+
     }
 }
