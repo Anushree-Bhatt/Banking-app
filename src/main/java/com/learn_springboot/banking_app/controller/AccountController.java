@@ -39,11 +39,25 @@ public class AccountController {
     @PutMapping("/{id}/deposit")
     public ResponseEntity<Void> updateBalance_deposit(@PathVariable(name = "id") Long accountId, @RequestBody Map<String, Double> request){
         Double amount = request.get("amount");
-        accountService.depositAmount(accountId, amount);
+        AccountDto res = accountService.depositAmount(accountId, amount);
+        logger.info(res+"");
+
         return ResponseEntity.status(204).headers(httpHeaders -> {
             URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(accountId).toUri();
             httpHeaders.setLocation(location);
         }).build();
-
     }
+
+    @PutMapping("/{id}/withdraw")
+    public ResponseEntity<Void> updateBalance_withdraw(@PathVariable(name = "id") Long accountId, @RequestBody Map<String, Double> request){
+        AccountDto accountDto = accountService.withdrawAmount(accountId, request.get("amount"));
+        logger.info(accountDto+"");
+
+        return ResponseEntity.status(204).headers(httpHeaders -> {
+            URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(accountId).toUri();
+            httpHeaders.setLocation(location);
+        }).build();
+    }
+
+
 }

@@ -39,4 +39,19 @@ public class AccountServiceImpl implements AccountService{
         Account res = accountRepository.save(account);
         return AccountMapper.mapToAccountDto(res);
     }
+
+    @Override
+    public AccountDto withdrawAmount(Long accountId, Double amount) {
+        Account account = accountRepository
+                .findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not Found!"));
+
+        if(amount > account.getBalance())
+            throw new RuntimeException("Amount exceeds balance!");
+
+        Double newBalance = account.getBalance()-amount;
+        account.setBalance(newBalance);
+        Account res = accountRepository.save(account);
+        return AccountMapper.mapToAccountDto(res);
+    }
 }
