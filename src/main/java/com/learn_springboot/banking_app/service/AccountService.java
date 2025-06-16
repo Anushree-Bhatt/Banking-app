@@ -6,4 +6,5 @@ import com.learn_springboot.banking_app.entity.Account;
 public interface AccountService {
 
     AccountDto createAccount(AccountDto accountDto);
+    AccountDto findAccount(Long accountId);
 }

@@ -19,4 +19,10 @@ public class AccountServiceImpl implements AccountService{
         Account acc = accountRepository.save(AccountMapper.mapToAccount(accountDto));
         return AccountMapper.mapToAccountDto(acc);
     }
+
+    @Override
+    public AccountDto findAccount(Long accountId) {
+        Account account = accountRepository.findById(accountId).get();
+        return AccountMapper.mapToAccountDto(account);
+    }
 }
