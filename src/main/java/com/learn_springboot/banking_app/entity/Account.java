@@ -13,7 +13,7 @@ import lombok.*;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer accountId;
+    private Long accountId;
     @Column(name = "account_holder_name")
     private String accountHolderName;
     private Double balance;
