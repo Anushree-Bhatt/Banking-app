@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,6 +58,12 @@ public class AccountController {
             URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(accountId).toUri();
             httpHeaders.setLocation(location);
         }).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AccountDto>> getAllAccounts(){
+        List<AccountDto> accountDtos = accountService.findAllAccounts();
+        return ResponseEntity.ok(accountDtos);
     }
 
 

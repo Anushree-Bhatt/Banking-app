@@ -6,6 +6,9 @@ import com.learn_springboot.banking_app.mapper.AccountMapper;
 import com.learn_springboot.banking_app.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AccountServiceImpl implements AccountService{
     private AccountRepository accountRepository;
@@ -53,5 +56,12 @@ public class AccountServiceImpl implements AccountService{
         account.setBalance(newBalance);
         Account res = accountRepository.save(account);
         return AccountMapper.mapToAccountDto(res);
+    }
+
+    @Override
+    public List<AccountDto> findAllAccounts() {
+        List<Account> accounts = accountRepository.findAll();
+        List<AccountDto> accountDtos = accounts.stream().map(account -> AccountMapper.mapToAccountDto(account)).collect(Collectors.toList());
+        return accountDtos;
     }
 }
