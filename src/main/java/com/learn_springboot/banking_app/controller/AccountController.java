@@ -66,5 +66,11 @@ public class AccountController {
         return ResponseEntity.ok(accountDtos);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable(name = "id") Long accountId){
+        accountService.deleteAccount(accountId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 
 }
