@@ -5,7 +5,7 @@ import com.learn_springboot.banking_app.entity.Account;
 
 public class AccountMapper {
     public static Account mapToAccount(AccountDto accountDto){
-        return new Account(accountDto.getAccountId(), accountDto.getAccountHolderName(), accountDto.getBalance());
+        return new Account(accountDto.accountId(), accountDto.accountHolderName(), accountDto.balance());
     }
 
     public static AccountDto mapToAccountDto(Account account){

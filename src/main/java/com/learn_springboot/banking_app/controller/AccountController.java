@@ -27,7 +27,7 @@ public class AccountController {
     public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto){
         logger.info(accountDto+"");
         AccountDto res = accountService.createAccount(accountDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(res.getAccountId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/accounts/{id}").buildAndExpand(res.accountId()).toUri();
         return ResponseEntity.created(location).body(res);
     }
 
